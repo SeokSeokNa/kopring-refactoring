@@ -1,0 +1,46 @@
+package com.group.libraryapp
+
+import org.junit.jupiter.api.*
+
+class JunitTest {
+
+    /*
+        @BeforeAll , @AfterAll 은 static 영역에 있어야하기에
+        코틀린에서 static 영역을 표시하는 companion object를 써줘야한다.
+     */
+    companion object {
+        @BeforeAll
+        @JvmStatic
+        fun beforeAll() {
+            println("모든 테스트 시작 전 1회만")
+        }
+
+        @AfterAll
+        @JvmStatic
+        fun afterAll() {
+            println("모든 테스트 종료 후 1회만")
+        }
+
+
+    }
+
+    @BeforeEach
+    fun beforeEach() {
+        println("각 테스트 시작 전")
+    }
+
+    @AfterEach
+    fun afterEach() {
+        println("각 테스트 종료 후")
+    }
+
+    @Test
+    fun test1() {
+        println("테스트1")
+    }
+
+    @Test
+    fun test2() {
+        println("테스트2")
+    }
+}
