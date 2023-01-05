@@ -7,7 +7,6 @@ import com.group.libraryapp.dto.user.request.UserUpdateRequest
 import com.group.libraryapp.dto.user.response.UserResponse
 import com.group.libraryapp.util.fail
 import com.group.libraryapp.util.findByIdOrThrow
-import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -28,7 +27,8 @@ class UserService(
     @Transactional(readOnly = true)
     fun getUsers(): List<UserResponse> {
         return userRepository.findAll()
-            .map { user -> UserResponse(user) } //여러가지 방법이 있지만 이렇게 명시하는게 좋음
+            .map { user -> UserResponse.of(user) } //여러가지 방법이 있지만 이렇게 명시하는게 좋음
+//            .map { user -> UserResponse(user) } //여러가지 방법이 있지만 이렇게 명시하는게 좋음
 //            .map { UserResponse(it) }
 //            .map(::UserResponse) //코틀린에서 생성자를 부를때 "::클래스" 이렇게쓴다.(자바에서는 클래스::new)
     }
