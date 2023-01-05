@@ -5,6 +5,9 @@ import com.group.libraryapp.domain.user.UserRepository
 import com.group.libraryapp.dto.user.request.UserCreateRequest
 import com.group.libraryapp.dto.user.request.UserUpdateRequest
 import com.group.libraryapp.dto.user.response.UserResponse
+import com.group.libraryapp.util.fail
+import com.group.libraryapp.util.findByIdOrThrow
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -32,13 +35,19 @@ class UserService(
 
     @Transactional
     fun updateUserName(request: UserUpdateRequest) {
-        val user = userRepository.findById(request.id).orElseThrow(::IllegalArgumentException)
+        //스프링에서 코틀린과의 호환성을 위해 "CrudRepository" 의 확장함수로 만들어둔 findByIdOrNull 을 이용하여 Optional 을 제거함
+        //val user = userRepository.findByIdOrNull(request.id) ?: fail()
+
+        //확장함수를 직접만들어 처리하기
+        //userRepository 는 "CrudRepository" 를 상속 받고있으니 내가만든 ExceptionUtils.kt 에 정의해둔 "CrudRepository"의 확장함수를 사용할 수 있다.
+        // (마치 CrudRepository에 findByIdOrThrow가 있는것 처럼)
+        val user = userRepository.findByIdOrThrow(request.id) ?: fail()
         user.updateName(request.name)
     }
 
     @Transactional
     fun deleteUser(name: String) {
-        val user = userRepository.findByName(name).orElseThrow(::IllegalArgumentException)
+        val user = userRepository.findByName(name) ?: fail()
         userRepository.delete(user)
     }
 }
