@@ -37,6 +37,8 @@ dependencies {
     implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
     //테스트 코드 돌릴시 kclass reflect 오류가 나는데 해당 의존성을 추가해줘야 정상 동작함
     implementation 'org.jetbrains.kotlin:kotlin-reflect:1.6.21'
+    //책 등록이나 유저등록시 json 객체를 코틀린객체로 바꿀때 사용되는 의존성
+    implementation 'com.fasterxml.jackson.module:jackson-module-kotlin:2.13.3'
     runtimeOnly 'com.h2database:h2'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
