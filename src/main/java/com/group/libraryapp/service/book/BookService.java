@@ -30,7 +30,7 @@ public class BookService {
 
   @Transactional
   public void saveBook(BookRequest request) {
-    Book newBook = new Book(request.getName());
+    Book newBook = new Book(request.getName() , null); //자바에서 코틀린을 호출할 때 default 파라미터를 인식하지 못하기에 id 필드에 값을 null로 넣어줌
     bookRepository.save(newBook);
   }
 
