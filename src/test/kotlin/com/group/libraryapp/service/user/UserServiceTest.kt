@@ -44,8 +44,8 @@ class UserServiceTest @Autowired constructor( //bean 주입을 받을때 생성�
     fun getUsersTest() {
         //given
         userRepository.saveAll(listOf(
-            User("A",20),
-            User("B",null)
+            User("A", 20),
+            User("B", null)
         ))
 
         //when
@@ -64,8 +64,8 @@ class UserServiceTest @Autowired constructor( //bean 주입을 받을때 생성�
     @DisplayName("유저 업데이트가 정상 동작한다.")
     fun updateUserNametest() {
         //given
-        val savedUser = userRepository.save(User("A" , null))
-        val request = UserUpdateRequest(savedUser.id , "B")
+        val savedUser = userRepository.save(User("A", null))
+        val request = UserUpdateRequest(savedUser.id!! , "B")
 
         //when
         userService.updateUserName(request)
@@ -79,7 +79,7 @@ class UserServiceTest @Autowired constructor( //bean 주입을 받을때 생성�
     @DisplayName("유저 삭제가 정상 동작한다.")
     fun deleteUsertest() {
         //given
-        userRepository.save(User("A" , null))
+        userRepository.save(User("A", null))
 
         //when
         userService.deleteUser("A")
