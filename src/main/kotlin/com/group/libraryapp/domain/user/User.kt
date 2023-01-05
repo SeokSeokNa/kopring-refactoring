@@ -5,7 +5,7 @@ import com.group.libraryapp.domain.user.loanhistory.UserLoanHistory
 import javax.persistence.*
 
 @Entity
-class User(
+class User constructor( // "constructor" 를 명시적으로 쓰게되면 해당 엔티티를 생성하는 곳 만 빠르게 추적할 수 있다.!!!
 
     var name: String,
 
