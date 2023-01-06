@@ -35,7 +35,8 @@ class BookServiceTest @Autowired constructor(
     @DisplayName("책 등록이 정상 동작한다.")
     fun saveBookTest() {
         //given
-        val request = BookRequest("이상한 나라의 엘리스")
+        // DTO 역시 정적 팩토리 메소드를 만들어 사용해도 괜찮지만 도메인에 비해 사용되는 부분이 해당 API에서만 보통 사용되다 보니 팀원끼리 협의해서 정적 팩토리 메소드를 사용할지 안할지 결정하면됨!!
+        val request = BookRequest("이상한 나라의 엘리스" , "COMPUTER")
 
         //when
         bookService.saveBook(request)
@@ -44,13 +45,14 @@ class BookServiceTest @Autowired constructor(
         val books = bookRepository.findAll()
         assertThat(books).hasSize(1)
         assertThat(books[0].name).isEqualTo("이상한 나라의 엘리스")
+        assertThat(books[0].type).isEqualTo("COMPUTER")
     }
 
     @Test
     @DisplayName("책 대출이 정상 동작한다.")
     fun loanBookTest() {
         //given
-        bookRepository.save(Book("이상한 나라의 엘리스"))
+        bookRepository.save(Book.fixture("이상한 나라의 엘리스"))
         val savedUser = userRepository.save(User("나원석", null))
         val request = BookLoanRequest("나원석" , "이상한 나라의 엘리스")
 
@@ -71,7 +73,7 @@ class BookServiceTest @Autowired constructor(
     @DisplayName("책이 진작 대출되어 있다면 신규 대출이 실패한다.")
     fun loanBookFailTest() {
         //given
-        bookRepository.save(Book("이상한 나라의 엘리스"))
+        bookRepository.save(Book.fixture("이상한 나라의 엘리스"))
         val savedUser = userRepository.save(User("나원석", null))
         userLoanHistoryRepository.save(UserLoanHistory(savedUser , "이상한 나라의 엘리스" , false)) //이미 대출이 되어있다고 가정하기 위해 대출내역을 등록
         val request = BookLoanRequest("나원석" , "이상한 나라의 엘리스")
