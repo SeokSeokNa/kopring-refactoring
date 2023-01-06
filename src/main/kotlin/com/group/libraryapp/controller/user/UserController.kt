@@ -2,6 +2,7 @@ package com.group.libraryapp.controller.user
 
 import com.group.libraryapp.dto.user.request.UserCreateRequest
 import com.group.libraryapp.dto.user.request.UserUpdateRequest
+import com.group.libraryapp.dto.user.response.UserLoanHistoryResponse
 import com.group.libraryapp.dto.user.response.UserResponse
 import com.group.libraryapp.service.user.UserService
 import org.springframework.web.bind.annotation.*
@@ -31,5 +32,10 @@ class UserController(
     // 하지만 deleteUser에 들어가는 파라미터는 null이면 안되기에 non-null 타입으로 사용한다.
     fun deleteUser(@RequestParam name: String) {
         userService.deleteUser(name)
+    }
+
+    @GetMapping("/user/loan")
+    fun getUserLoanHistories(): List<UserLoanHistoryResponse> {
+        return userService.getUserLoanHistories()
     }
 }
