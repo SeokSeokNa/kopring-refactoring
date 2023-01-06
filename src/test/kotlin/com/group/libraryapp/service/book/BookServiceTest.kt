@@ -2,6 +2,7 @@ package com.group.libraryapp.service.book
 
 import com.group.libraryapp.domain.book.Book
 import com.group.libraryapp.domain.book.BookRepository
+import com.group.libraryapp.domain.book.BookType
 import com.group.libraryapp.domain.user.User
 import com.group.libraryapp.domain.user.UserRepository
 import com.group.libraryapp.domain.user.loanhistory.UserLoanHistory
@@ -36,7 +37,7 @@ class BookServiceTest @Autowired constructor(
     fun saveBookTest() {
         //given
         // DTO 역시 정적 팩토리 메소드를 만들어 사용해도 괜찮지만 도메인에 비해 사용되는 부분이 해당 API에서만 보통 사용되다 보니 팀원끼리 협의해서 정적 팩토리 메소드를 사용할지 안할지 결정하면됨!!
-        val request = BookRequest("이상한 나라의 엘리스" , "COMPUTER")
+        val request = BookRequest("이상한 나라의 엘리스" , BookType.COMPUTER)
 
         //when
         bookService.saveBook(request)
@@ -45,7 +46,7 @@ class BookServiceTest @Autowired constructor(
         val books = bookRepository.findAll()
         assertThat(books).hasSize(1)
         assertThat(books[0].name).isEqualTo("이상한 나라의 엘리스")
-        assertThat(books[0].type).isEqualTo("COMPUTER")
+        assertThat(books[0].type).isEqualTo(BookType.COMPUTER)
     }
 
     @Test

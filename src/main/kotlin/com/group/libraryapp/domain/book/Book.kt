@@ -1,15 +1,15 @@
 package com.group.libraryapp.domain.book
 
-import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.GenerationType
-import javax.persistence.Id
+import javax.persistence.*
 
 @Entity
 class Book(
     val name: String,
 
-    val type: String,
+    //JPA 사용시 Enum 필드는 DB에 들어갈때 기본적으로 숫자로 들어가게 된다.
+    //이렇게 되면 Enum에 정의한 값의 순서가 변경되면 꼬이게 되며 추가나 삭제할때 제한된다, 그렇기 때문에 꼭 String값을 사용할 것!
+    @Enumerated(EnumType.STRING)
+    val type: BookType,
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,7 +29,7 @@ class Book(
     companion object {
         fun fixture(
             name: String = "책 이름",
-            type: String = "COMPUTER",
+            type: BookType = BookType.COMPUTER,
             id: Long? = null
         ): Book {
             return Book(
