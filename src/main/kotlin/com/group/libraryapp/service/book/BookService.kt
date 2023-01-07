@@ -47,15 +47,21 @@ class BookService(
     //현재 대출중인 책의 개수
     @Transactional(readOnly = true)
     fun countLoanedBook(): Int {
-        return userLoanHistoryRepository.findAllByStatus(UserLoanStatus.LOANED).size
+//        return userLoanHistoryRepository.findAllByStatus(UserLoanStatus.LOANED).size
+        return userLoanHistoryRepository.countByStatus(UserLoanStatus.LOANED).toInt()
     }
 
     //분야별 책 권수 통계
     @Transactional(readOnly = true)
     fun getBookStatistics(): List<BookStatResponse> {
-        return bookRepository.findAll() // List<Book> 형태를 가져옴
-            .groupBy { book -> book.type } //Map<BookType , List<Book>> 형태로 바뀜
-            .map { (type , books) -> BookStatResponse(type , books.size) } // List<BookStatResponse> 형태가 됨
+
+        //쿼리로 바로 처리하여 이용하기
+        return bookRepository.getStats()
+
+        //어플리케이션에서(메모리상) 에서 리스트 처리하기
+//        return bookRepository.findAll() // List<Book> 형태를 가져옴
+//            .groupBy { book -> book.type } //Map<BookType , List<Book>> 형태로 바뀜
+//            .map { (type , books) -> BookStatResponse(type , books.size) } // List<BookStatResponse> 형태가 됨
 
 
 

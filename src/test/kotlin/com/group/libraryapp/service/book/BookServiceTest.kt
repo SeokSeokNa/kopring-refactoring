@@ -149,12 +149,12 @@ class BookServiceTest @Autowired constructor(
 //        assertThat(scienceDto.count).isEqualTo(1)
 
         //private 함수를 만들어 위 코드를 대체하기(다른 분야 책들도 테스트하려면 코드가 길어지기에)
-        assertCount(results , BookType.COMPUTER , 2)
-        assertCount(results , BookType.SCIENCE , 1)
+        assertCount(results , BookType.COMPUTER , 2L)
+        assertCount(results , BookType.SCIENCE , 1L)
     }
 
 
-    private fun assertCount(results: List<BookStatResponse>, type: BookType, count: Int) {
+    private fun assertCount(results: List<BookStatResponse>, type: BookType, count: Long) {
         assertThat(results.first { result -> result.type == type }.count).isEqualTo(count)
     }
 }
