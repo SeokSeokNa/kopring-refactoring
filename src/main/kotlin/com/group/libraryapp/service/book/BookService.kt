@@ -53,10 +53,16 @@ class BookService(
     //분야별 책 권수 통계
     @Transactional(readOnly = true)
     fun getBookStatistics(): List<BookStatResponse> {
-        val results = mutableListOf<BookStatResponse>() // 반환할 빈 리스트 미리 만들어두기
-        val books = bookRepository.findAll() // 등록되어 있는 책 모두 가져오기
+        return bookRepository.findAll() // List<Book> 형태를 가져옴
+            .groupBy { book -> book.type } //Map<BookType , List<Book>> 형태로 바뀜
+            .map { (type , books) -> BookStatResponse(type , books.size) } // List<BookStatResponse> 형태가 됨
 
-        //책 리스트 루프 돌리며 통계 리스트 데이터 만들기
+
+
+//        val results = mutableListOf<BookStatResponse>() // 반환할 빈 리스트 미리 만들어두기
+//        val books = bookRepository.findAll() // 등록되어 있는 책 모두 가져오기
+//
+//        //책 리스트 루프 돌리며 통계 리스트 데이터 만들기
 //        for (book in books) {
 //          val targetResult = results.firstOrNull { dto -> book.type == dto.type } //통계 리스트안에 해당하는 분야가 있는지 체크
 //            if (targetResult == null) { //없으면 분야 넣어주기(분야 , 개수 1개)
@@ -65,14 +71,14 @@ class BookService(
 //                targetResult.plusOne() // 있다면 개수 1개 늘려주기
 //            }
 //        }
-
-        // 코틀린 문법을 이용하여 리펙토링 해보기
-        for (book in books) {
-            results.firstOrNull { dto -> book.type == dto.type }?.plusOne() // "firstOrNull" 결과가 null 이 아닐경우 만 plusOne() 함수 실행
-                ?: results.add(BookStatResponse(book.type, 1)) //앨리스 연산자를 이용하여 앞에 결과가 null일 경우 results.add 실행 하여 통계 데이터 넣기
-        }
-
-        return results
+//
+//        // 코틀린 문법을 이용하여 리펙토링 해보기
+//        for (book in books) {
+//            results.firstOrNull { dto -> book.type == dto.type }?.plusOne() // safety call 을 이용해 "firstOrNull" 결과가 null 이 아닐경우 만 plusOne() 함수 실행
+//                ?: results.add(BookStatResponse(book.type, 1)) //앨리스 연산자를 이용하여 앞에 결과가 null일 경우 results.add 실행 하여 통계 데이터 넣기
+//        }
+//
+//        return results
     }
 
 
