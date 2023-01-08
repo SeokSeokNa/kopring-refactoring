@@ -56,7 +56,7 @@ class UserService(
 
     @Transactional(readOnly = true)
     fun getUserLoanHistories(): List<UserLoanHistoryResponse> {
-        return userRepository.findAllWithHistories()
+        return userRepository.findAllWithHiostories()
             .map(UserLoanHistoryResponse::of) //정적 팩토리 메소드를 이용하여 코드 리펙토링
     }
 }

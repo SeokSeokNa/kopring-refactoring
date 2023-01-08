@@ -1,0 +1,18 @@
+package com.group.libraryapp.domain.user
+
+import com.group.libraryapp.domain.user.QUser.user
+import com.group.libraryapp.domain.user.loanhistory.QUserLoanHistory.userLoanHistory
+import com.querydsl.jpa.impl.JPAQueryFactory
+
+class UserRepositoryCustomImpl(
+    private val queryFactory: JPAQueryFactory //QuerydslConfig 클래스에 만든 Bean을 주입받음
+) : UserRepositoryCustom {
+
+
+    override fun findAllWithHiostories(): List<User> {
+        return queryFactory.select(user).distinct()
+            .from(user)
+            .leftJoin(userLoanHistory).on(userLoanHistory.user.id.eq(user.id)).fetchJoin()
+            .fetch()
+    }
+}
