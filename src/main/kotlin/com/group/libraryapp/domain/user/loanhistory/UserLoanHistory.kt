@@ -13,6 +13,7 @@ class UserLoanHistory(
 
     //추가 요구사항 -> 반납여부가 아닌 책의 대출 상태로 변경해달라
     //대출 상태 관련 필드(기본적으로 UserLoanHistory 객체가 생성된다는건 책을 대출한다는 뜻이니 기본값으로 LOANED 를 써줌)
+    @Enumerated(EnumType.STRING)
     var status: UserLoanStatus = UserLoanStatus.LOANED,
 
     @Id
